@@ -11,7 +11,7 @@ public class Platform : MonoBehaviour
     {
         Vector3 calculatedEndPoint;
         calculatedEndPoint.x = spriteRenderer.bounds.size.x + this.transform.position.x;
-        calculatedEndPoint.y = Random.Range(-2,3);
+        calculatedEndPoint.y = Random.Range(2,-3);
         calculatedEndPoint.z = 0;
         return calculatedEndPoint;
 

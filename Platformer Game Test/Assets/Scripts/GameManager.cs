@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject PlatformGrass;
+    public GameObject[] PlatformGrasses;
     public int  PlatformSpawnCount;
     public Vector3 EndPointTransform;
 
@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < PlatformSpawnCount; i++)
         {
 
-            GameObject platform = GameObject.Instantiate(PlatformGrass);            
+            GameObject platform = GameObject.Instantiate(PlatformGrasses[Random.Range(0, PlatformGrasses.Length)]);            
             Platform platformScrpit = platform.GetComponent<Platform>();
             platform.transform.position = EndPointTransform;
             EndPointTransform = platformScrpit.ReturnEndPoint();
