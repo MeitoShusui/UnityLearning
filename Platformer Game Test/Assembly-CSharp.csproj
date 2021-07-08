@@ -64,6 +64,8 @@
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Platform.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
+    <Compile Include="Assets\CharacterAnimationBehaviour.cs" />
+    <Compile Include="Assets\Scripts\CharacterAnimationController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

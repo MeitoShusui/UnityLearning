@@ -29,27 +29,19 @@ public class CharacterMovementController : MonoBehaviour
     public FacingDirection facingDirection;
 
     private Rigidbody2D rigidBody2D;
-    private Animator animator;
+    private CharacterAnimationController animController;
     private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         rigidBody2D = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animController = GetComponent<CharacterAnimationController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
     void Update()
     {
 
-        if (Input.GetKey(KeyCode.UpArrow) && IsGrounded())
-        {
-
-
-            rigidBody2D.velocity = Vector2.up * jumpHeight;
-
-
-
-        }
+       
 
 
     }
@@ -64,11 +56,25 @@ public class CharacterMovementController : MonoBehaviour
         HandleMovement();
         IsGrounded();
         SetCharachterState();
-        PlayAnimationsBasedOnState();
+        //PlayAnimationsBasedOnState();
         SetCharacterDÝrection();
+        HandleJump();
 
     }
 
+    private void HandleJump()
+    {
+        if (Input.GetKey(KeyCode.UpArrow) && IsGrounded())
+        {
+
+            
+            rigidBody2D.velocity = Vector2.up * jumpHeight;
+
+
+
+        }
+
+    }
 
 
     private void HandleMovement()
@@ -125,8 +131,6 @@ public class CharacterMovementController : MonoBehaviour
 
         Debug.DrawRay(spriteRenderer.bounds.center + new Vector3(spriteRenderer.bounds.extents.x, 0),
         Vector2.down * (spriteRenderer.bounds.extents.y + isGroundedRayLegnght), rayColor);
-        Debug.DrawRay(spriteRenderer.bounds.center + new Vector3(spriteRenderer.bounds.extents.x, 0),
-        Vector2.down * (spriteRenderer.bounds.extents.y + isGroundedRayLegnght), rayColor);
         Debug.DrawRay(spriteRenderer.bounds.center + new Vector3(0, spriteRenderer.bounds.extents.y),
         Vector2.down * (spriteRenderer.bounds.extents.y + isGroundedRayLegnght), rayColor);
         if (raycastHit2D.collider != null)
@@ -148,25 +152,25 @@ public class CharacterMovementController : MonoBehaviour
         {
             if (rigidBody2D.velocity.x == 0)
             {
-                characterMovementState = MovementStates.Idle;
+                animController.PlayIdleAnim();
 
             }
             else if (rigidBody2D.velocity.x > 0)
             {
                 facingDirection = FacingDirection.Right;
-                characterMovementState = MovementStates.Running;
+                animController.PlayRunningAnim();
 
 
             }
             else if (rigidBody2D.velocity.x < 0)
             {
                 facingDirection = FacingDirection.Left;
-                characterMovementState = MovementStates.Running;
+                animController.PlayRunningAnim();
             }
         }
         else
         {
-            characterMovementState = MovementStates.Jumping;
+            animController.PlayJumpingAnim();
         }
     }
 
@@ -189,15 +193,13 @@ public class CharacterMovementController : MonoBehaviour
         switch (characterMovementState)
         {
             case MovementStates.Idle:
-                animator.SetBool("IsRunning", false);
-                animator.SetBool("IsJumping", false);
+                animController.PlayIdleAnim();
                 break;
             case MovementStates.Running:
-                animator.SetBool("IsRunning", true);
-                animator.SetBool("IsJumping", false);
+                animController.PlayRunningAnim();
                 break;
             case MovementStates.Jumping:
-                animator.SetBool("IsJumping", true);
+                animController.PlayJumpingAnim();
                 break;
             case MovementStates.Attacking:
                 break;
